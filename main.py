@@ -10,4 +10,5 @@ dataset = pykitti.raw(basedir, date, drive)
 
 cm = CameraModel(dataset)
 
-cm.videoGen()
+choice = int(input('regular(1) or depth interpolated lidar scan(2)'))
+cm.videoGen(choice)

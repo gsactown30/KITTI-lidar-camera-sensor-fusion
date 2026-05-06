@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import cv2
+from scipy.interpolate import griddata
 
 class CameraModel():
     def __init__(self, dataset):
@@ -36,7 +37,7 @@ class CameraModel():
 
         return newScan
 
-    def videoGen(self):
+    def videoGen(self, choice):
         #create generators and objects
         genRGB = self.dataset.rgb
         genVelo = self.dataset.velo
@@ -54,7 +55,11 @@ class CameraModel():
             fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
             ax.set_position([0, 0, 1, 1])
             ax.imshow(cam2)
-            scatter = ax.scatter(newScan[:, 0], newScan[:, 1], s=1, c=newScan[:, 2], cmap='viridis')
+            if choice == 1:
+                scatter = ax.scatter(newScan[:, 0], newScan[:, 1], s=1, c=newScan[:, 2], cmap='viridis')
+            elif choice == 2:
+                n1, n2, d = self.depthInterpolate(newScan)
+                scatter = ax.scatter(n1.ravel(), n2.ravel(), s=0.03, c=d.ravel(), cmap='viridis')
             ax.axis('off')
             fig.canvas.draw()
 
@@ -69,3 +74,17 @@ class CameraModel():
         cv2.destroyAllWindows()
         endTime = time.perf_counter()
         print(f"Program runtime: {endTime - startTime:.2f} seconds")
+
+    def depthInterpolate(self, scan):
+        a = np.arange(1242)
+        b = np.arange(375)
+        c1, c2 = np.meshgrid(a, b)
+        xCoord = scan[:, 0]
+        yCoord = scan[:, 1]
+        depthMap = griddata(np.column_stack((xCoord, yCoord)), scan[:, 2], (c1, c2), method='nearest')
+        c1 = c1[141:]
+        c2 = c2[141:]
+        depthMap = depthMap[141:]
+        depthMap = c1, c2, depthMap
+
+        return depthMap
