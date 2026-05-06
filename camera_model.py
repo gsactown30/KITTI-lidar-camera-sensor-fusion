@@ -51,6 +51,8 @@ class CameraModel():
             #draw image and scan data on top
             cam2, cam3 = img
             fig, ax = plt.subplots(figsize=(12.42, 3.75), dpi=100)
+            fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
+            ax.set_position([0, 0, 1, 1])
             ax.imshow(cam2)
             scatter = ax.scatter(newScan[:, 0], newScan[:, 1], s=1, c=newScan[:, 2], cmap='viridis')
             ax.axis('off')
