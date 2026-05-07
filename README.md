@@ -2,7 +2,7 @@
 
 LiDAR and camera sensor fusion visualizer built in Python using the KITTI dataset.
 
-![Depth Projection](/depthMap1.png)
+![Depth Projection](output/depthMap1.png)
 
 ---
 
@@ -64,21 +64,21 @@ Dense depth completion is available as an optional mode using `scipy.griddata` n
 
 Results were generated using KITTI sequence `2011_09_26_drive_0015` — 297 frames of urban driving.
 
-### Depth-Colored LiDAR Projection
+### Depth-Colored Interpolated LiDAR Projection
 
-![Depth Projection](/depthMap.png)
+![Depth Projection](output/depthMap.png)
 
-*LiDAR points projected onto the camera image, colored by log-normalized depth using the viridis colormap.*
+*LiDAR points projected onto the camera image, colored and interpolated by log-normalized depth using the viridis colormap.*
 
 ### RGB-Colored 3D Point Cloud
 
-![RGB Point Cloud](/colorPointCloud.png)
+![RGB Point Cloud](output/colorPointCloud.png)
 
 *Each LiDAR point colored with the RGB value of its corresponding camera pixel, visualized in Open3D.*
 
 ### Full Drive Sequence
 
-![Drive Sequence](/fullDrive.gif)
+![Drive Sequence](output/fullDrive.gif)
 
 *297-frame animated reconstruction of the full drive at 10fps.*
 
